@@ -1,15 +1,23 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# log_format ui_short '$remote_addr $remote_user  $http_x_real_ip [$time_local] "$request" '
-#                     '$status $body_bytes_sent "$http_referer" '
-#                     '"$http_user_agent" "$http_x_forwarded_for" "$http_X_REQUEST_ID" "$http_X_RB_USER" '
-#                     '$request_time';
-config = {
-    "REPORT_SIZE": 1000,
-    "REPORT_DIR": "./reports",
-    "LOG_DIR": "./log"
-}
-def main():
+import sys
+
+from .log_analyzer_config import LogAnalyzerConfig
+from .log_parser import LogParser
+from .log_watcher import LogWatcher
+
+
+def generate_report(logs_stats, logs_date):
     pass
+
+
+def main():
+    config = LogAnalyzerConfig()
+    log = LogWatcher.get_newest_log(config.get_value('LOG_DIR'))
+    if not log:
+        print('Cant find any suggested log file')  # TODO: logger
+        sys.exit(0)
+    logs_stats = LogParser.parse_log()
+    generate_report(logs_stats, log['date'])
+
+
 if __name__ == "__main__":
     main()

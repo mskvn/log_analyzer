@@ -1,1 +1,5 @@
 .idea
+log_analyzer/reports
+!log_analyzer/reports/.keep
+log_analyzer/logs
+!log_analyzer/logs/.keep
