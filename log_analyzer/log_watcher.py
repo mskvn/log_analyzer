@@ -8,9 +8,9 @@ class LogWatcher:
     DATE_FORMAT = '%Y%m%d'
 
     def get_newest_log(self, log_dir):
-        return max(self.__suitable_logs(log_dir), key=lambda x: x['date'], default=None)
+        return max(self._suitable_logs(log_dir), key=lambda x: x['date'], default=None)
 
-    def __suitable_logs(self, log_dir):
+    def _suitable_logs(self, log_dir):
         files = os.listdir(log_dir)
         for log_path in files:
             match = re.search(self.LOG_FILE_REGEXP, log_path)

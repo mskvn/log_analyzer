@@ -11,11 +11,11 @@ def generate_report(logs_stats, logs_date):
 
 def main():
     config = LogAnalyzerConfig()
-    log = LogWatcher.get_newest_log(config.get_value('LOG_DIR'))
+    log = LogWatcher().get_newest_log(config.get_value('LOG_DIR'))
     if not log:
         print('Cant find any suggested log file')  # TODO: logger
         sys.exit(0)
-    logs_stats = LogParser.parse_log()
+    logs_stats = LogParser.parse_log(log)
     generate_report(logs_stats, log['date'])
 
 
