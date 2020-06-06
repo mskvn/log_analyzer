@@ -14,23 +14,15 @@ def log_analyze():
     report = LogReport(config.get_value('REPORT_DIR'))
     if report.is_report_exists(log['date']):
         print(f"Newest log is {log['path']}")
-        print(f"Report for date {log['date'].strftime('%Y.%m.%d')} already exists")  # TODO: logger, date format
+        print(f"Report for date {log['date'].strftime('%Y.%m.%d')} already exists")  # TODO: logger
         return
 
-    logs_stats, errors_percent = LogParser().parse_log(log)
-    if errors_percent >= config.get_value('MAX_ERROR_PERCENT'):
-        print(f"{config.get_value('MAX_ERROR_PERCENT')} % of line did not process")  # TODO: logger
+    logs_stats = LogParser().parse_log(log, config.get_value('MAX_ERROR_PERCENT'))
 
-    report_path = report.generate_report(logs_stats, log['date'])
-    print(f'See report in {report_path}')
+    if len(logs_stats) == 0:
+        print('Don`t have enough data for generate report')  # TODO: logger, warn
+        return
 
-
-def main():
-    try:
-        log_analyze()
-    except Exception as e:
-        print(e)  # TODO: logger
-
-
-if __name__ == "__main__":
-    main()
+    print('Generating report')  # TODO: logger
+    report_path = report.generate_report(logs_stats, log['date'], int(config.get_value('REPORT_SIZE')))
+    print(f'See report in {report_path}')  # TODO: logger, info

@@ -9,14 +9,14 @@ from log_analyzer.log_report import LogReport
 class TestLogParser(unittest.TestCase):
 
     def test_generate_report(self):
-        report_path = os.path.join('fixtures', 'tmp')
-        report = LogReport(report_path)
+        report_dir = os.path.join('fixtures', 'tmp')
+        report = LogReport(report_dir)
         logs_date = datetime.strptime('2020.01.02', '%Y.%m.%d')
         with open(os.path.join('fixtures', 'logs_stats.json')) as f:
             logs_stats = json.loads(f.read())
-        report.generate_report(logs_stats, logs_date)
+        report_path = report.generate_report(logs_stats, logs_date, 3)
 
-        self.assertTrue(os.path.isfile(os.path.join(report_path, 'report-2020.01.02.html')))
+        self.assertTrue(os.path.isfile(report_path))
 
     def test_is_report_exists(self):
         report = LogReport('fixtures/reports')

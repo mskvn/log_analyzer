@@ -1,7 +1,8 @@
 .idea
-log_analyzer/reports
-!log_analyzer/reports/.keep
-log_analyzer/logs
-!log_analyzer/logs/.keep
+reports
+!reports/.keep
+logs
+!logs/.keep
 tests/fixtures/tmp
 !tests/fixtures/tmp/.keep
+log_analyzer/__pycache__

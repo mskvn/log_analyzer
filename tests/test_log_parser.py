@@ -17,7 +17,7 @@ class TestLogParser(unittest.TestCase):
         }
         for log in [log_plain, log_gz]:
             with self.subTest(log=log):
-                report_stat, errors = LogParser().parse_log(log)
+                report_stat = LogParser().parse_log(log, 0.1)
                 self.assertIsInstance(report_stat, list)
                 url_stat = report_stat[0]
                 required_keys = ['url', 'count', 'count_perc', 'time_avg', 'time_med', 'time_max', 'time_sum',

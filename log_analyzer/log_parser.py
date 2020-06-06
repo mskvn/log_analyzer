@@ -13,20 +13,23 @@ class LogParser:
                  r'\s+"(.+)"\s+"(.+)"\s+"(.+)"\s+"(.+)"' \
                  r'\s+(?P<time>.+)'
 
-    def parse_log(self, log):
+    def parse_log(self, log, max_errors_percent):
         """
         Parse nginx log file and return list of dicts with stats by each url
-        Also return percent of unparsed rows
         Stats contains few keys: url, count, count_perc, time_avg, time_med, time_max, time_sum, time_perc
         :param log: dict
+        :param max_errors_percent: float
         Dict with two required keys:
         path: path to log file
         ext: log file extension
-        :return: tuple
+        :return: list
         """
         result = self._calc_raw_stats(log)
-        report_stats = self._calc_report_stats(result['raw_stats'], result['total_count'], result['total_time'])
-        return report_stats, result['errors_perc']
+        if result['errors_perc'] >= max_errors_percent:
+            print(f"{result['errors_perc']} % of line did not process")  # TODO: logger, warn
+            return list()
+        print('Raw stats collect. Calculating metrics for report now.')
+        return self._calc_report_stats(result['raw_stats'], result['total_count'], result['total_time'])
 
     def _calc_report_stats(self, raw_stats, total_count, total_time):
         report_stats = list()
@@ -62,6 +65,8 @@ class LogParser:
                 stats[line['url']]['time'].append(line['time'])
                 total_count += 1
                 total_time += line['time']
+        print(f'Processed {lines_count} lines')  # TODO: logger
+        print(f'{errors} line was skipped')  # TODO: logger
         return {
             'raw_stats': stats,
             'total_count': total_count,
@@ -79,10 +84,10 @@ class LogParser:
         line = line.decode(encoding="ascii", errors="surrogateescape")
         match = re.search(self.LOG_REGEXP, line)
         if not match:
-            print(f"Log line not match with regexp:\n{line}")  # TODO: logger
+            print(f"Log line not match with regexp:\n{line}")  # TODO: logger, debug
             return None
         request = match.group('request')
         if len(request.split()) != 3:
-            print(f"Wrong $request format: {request}")  # TODO: logger
+            print(f"Wrong $request format in line {line}")  # TODO: logger, debug
             return None
         return {'url': request.split()[1], 'time': float(match.group('time'))}
