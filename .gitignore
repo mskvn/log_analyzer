@@ -3,3 +3,5 @@ log_analyzer/reports
 !log_analyzer/reports/.keep
 log_analyzer/logs
 !log_analyzer/logs/.keep
+tests/fixtures/tmp
+!tests/fixtures/tmp/.keep
