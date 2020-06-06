@@ -11,9 +11,17 @@ class LogReport:
         self._report_dir = report_dir
 
     def generate_report(self, logs_stats, logs_date, report_size):
+        """
+        Generate html report using logs statistics
+        :param logs_stats:
+        :param logs_date: date for build report name
+        :param report_size: top url from logs_stats by sum of time
+        :return: string
+        Return path to generated report
+        """
+        logs_stats = sorted(logs_stats, key=lambda x: x['time_sum'], reverse=True)
         if len(logs_stats) > report_size:
             logs_stats = logs_stats[0:report_size]
-        logs_stats = sorted(logs_stats, key=lambda x: x['time_sum'], reverse=True)
 
         with open(self.REPORT_TEMPLATE_PATH, encoding="ascii", errors="surrogateescape", mode='r') as f:
             template = string.Template(f.read())

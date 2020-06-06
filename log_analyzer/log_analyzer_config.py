@@ -16,7 +16,7 @@ class LogAnalyzerConfig:
             return self.__customs[name]
         if name in self.__defaults:
             return self.__defaults[name]
-        raise ValueError(f"Can not find value for '{name}'")
+        return None
 
     def __init_custom(self, custom_config_path):
         if custom_config_path:

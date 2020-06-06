@@ -6,13 +6,15 @@ from log_analyzer.log_parser import LogParser
 
 class TestLogParser(unittest.TestCase):
 
+    _fixtures = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
+
     def test_parse_log(self):
         log_plain = {
-            'path': os.path.join('fixtures', 'logs', 'nginx-log'),
+            'path': os.path.join(self._fixtures, 'logs', 'nginx-log'),
             'ext': ''
         }
         log_gz = {
-            'path': os.path.join('fixtures', 'logs', 'nginx-log.gz'),
+            'path': os.path.join(self._fixtures, 'logs', 'nginx-log.gz'),
             'ext': 'gz'
         }
         for log in [log_plain, log_gz]:

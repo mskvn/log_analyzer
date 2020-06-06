@@ -1,4 +1,5 @@
 import gzip
+import logging
 import re
 from statistics import median
 
@@ -26,9 +27,9 @@ class LogParser:
         """
         result = self._calc_raw_stats(log)
         if result['errors_perc'] >= max_errors_percent:
-            print(f"{result['errors_perc']} % of line did not process")  # TODO: logger, warn
+            logging.info(f"{result['errors_perc']} % of line did not process")
             return list()
-        print('Raw stats collect. Calculating metrics for report now.')
+        logging.info('Raw stats collect. Calculating metrics for report now.')
         return self._calc_report_stats(result['raw_stats'], result['total_count'], result['total_time'])
 
     def _calc_report_stats(self, raw_stats, total_count, total_time):
@@ -65,8 +66,8 @@ class LogParser:
                 stats[line['url']]['time'].append(line['time'])
                 total_count += 1
                 total_time += line['time']
-        print(f'Processed {lines_count} lines')  # TODO: logger
-        print(f'{errors} line was skipped')  # TODO: logger
+        logging.info(f'Processed {lines_count} lines')
+        logging.info(f'{errors} line was skipped')
         return {
             'raw_stats': stats,
             'total_count': total_count,
@@ -84,10 +85,10 @@ class LogParser:
         line = line.decode(encoding="ascii", errors="surrogateescape")
         match = re.search(self.LOG_REGEXP, line)
         if not match:
-            print(f"Log line not match with regexp:\n{line}")  # TODO: logger, debug
+            logging.debug(f"Log line not match with regexp:\n{line}")
             return None
         request = match.group('request')
         if len(request.split()) != 3:
-            print(f"Wrong $request format in line {line}")  # TODO: logger, debug
+            logging.debug(f"Wrong $request format in line {line}")
             return None
         return {'url': request.split()[1], 'time': float(match.group('time'))}

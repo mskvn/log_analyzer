@@ -6,3 +6,4 @@ logs
 tests/fixtures/tmp
 !tests/fixtures/tmp/.keep
 log_analyzer/__pycache__
+tests/__pycache__
