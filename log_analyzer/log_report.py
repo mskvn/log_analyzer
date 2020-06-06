@@ -13,7 +13,7 @@ class LogReport:
     def generate_report(self, logs_stats, logs_date, report_size):
         if len(logs_stats) > report_size:
             logs_stats = logs_stats[0:report_size]
-        logs_stats = sorted(logs_stats, key=lambda x: x['time_sum'])
+        logs_stats = sorted(logs_stats, key=lambda x: x['time_sum'], reverse=True)
 
         with open(self.REPORT_TEMPLATE_PATH, encoding="ascii", errors="surrogateescape", mode='r') as f:
             template = string.Template(f.read())
