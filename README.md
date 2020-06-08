@@ -17,7 +17,7 @@ python log_analyzer.py
 Run with custom configs
 
 ```shell script
-python log_analyzer.py --configs /paht/to/configs.json
+python log_analyzer.py --configs /path/to/configs.json
 ```
 
 Config example
@@ -27,7 +27,8 @@ Config example
   "REPORT_SIZE": 1000,
   "REPORT_DIR": "./reports",
   "LOG_DIR": "./logs",
-  "MAX_ERROR_PERCENT": 0.1
+  "MAX_ERROR_PERCENT": 0.1,
+  "LOG_FILE": "log_analyzer.out"
 }
 
 ```
