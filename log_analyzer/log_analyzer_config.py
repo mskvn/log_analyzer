@@ -1,5 +1,4 @@
 import json
-import logging
 import os
 
 
@@ -9,7 +8,6 @@ class LogAnalyzerConfig:
     def __init__(self, custom_config_path=None):
         self.__init_defaults()
         self.__customs = self.__init_custom(custom_config_path)
-        logging.info("Default configs:\n{}\nCustom configs:\n{}".format(self.__defaults, self.__customs))
 
     def get_value(self, name):
         if name in self.__customs:
