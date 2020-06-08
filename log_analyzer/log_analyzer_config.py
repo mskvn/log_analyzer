@@ -6,25 +6,26 @@ class LogAnalyzerConfig:
     DEFAULT_CONFIG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'configs', 'config.json')
 
     def __init__(self, custom_config_path=None):
-        self.__init_defaults()
-        self.__customs = self.__init_custom(custom_config_path)
+        self._defaults = self._init_defaults()
+        self._customs = self._init_custom(custom_config_path)
 
     def get_value(self, name):
-        if name in self.__customs:
-            return self.__customs[name]
-        if name in self.__defaults:
-            return self.__defaults[name]
+        if name in self._customs:
+            return self._customs[name]
+        if name in self._defaults:
+            return self._defaults[name]
         return None
 
-    def __init_custom(self, custom_config_path):
+    def _init_custom(self, custom_config_path):
         if custom_config_path:
-            return self.__init_defaults()
+            return self._load_configs(custom_config_path)
         else:
             return dict()
 
-    def __init_defaults(self):
-        return self.__load_configs(self.DEFAULT_CONFIG_PATH)
+    def _init_defaults(self):
+        return self._load_configs(self.DEFAULT_CONFIG_PATH)
 
-    def __load_configs(self, config_path):
+    @staticmethod
+    def _load_configs(config_path):
         with open(config_path, 'r') as json_file:
-            self.__defaults = json.load(json_file)
+            return json.load(json_file)
