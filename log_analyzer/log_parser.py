@@ -9,10 +9,10 @@ class LogParser:
     #                     '$status $body_bytes_sent "$http_referer" '
     #                     '"$http_user_agent" "$http_x_forwarded_for" "$http_X_REQUEST_ID" "$http_X_RB_USER" '
     #                     '$request_time';
-    LOG_REGEXP = r'(.+)\s+(.+)\s+(.+)\s+\[(.+)\]\s+"(?P<request>.+)"' \
-                 r'\s+(.+)\s+(.+)\s+"(.+)"' \
-                 r'\s+"(.+)"\s+"(.+)"\s+"(.+)"\s+"(.+)"' \
-                 r'\s+(?P<time>.+)'
+    LOG_REGEXP = r'(.+?)\s+?(.+?)\s+?(.+?)\s+?\[(.+?)\]\s+?"(?P<request>.+?)"' \
+                 r'\s+?(.+?)\s+?(.+?)\s+?"(.+?)"' \
+                 r'\s+?"(.+?)"\s+?"(.+?)"\s+?"(.+?)"\s+?"(.+?)"' \
+                 r'\s+?(?P<time>.+)'
 
     def parse_log(self, log, max_errors_percent):
         """
