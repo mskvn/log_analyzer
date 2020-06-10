@@ -9,10 +9,11 @@ class LogParser:
     #                     '$status $body_bytes_sent "$http_referer" '
     #                     '"$http_user_agent" "$http_x_forwarded_for" "$http_X_REQUEST_ID" "$http_X_RB_USER" '
     #                     '$request_time';
-    LOG_REGEXP = r'(.+?)\s+?(.+?)\s+?(.+?)\s+?\[(.+?)\]\s+?"(?P<request>.+?)"' \
-                 r'\s+?(.+?)\s+?(.+?)\s+?"(.+?)"' \
-                 r'\s+?"(.+?)"\s+?"(.+?)"\s+?"(.+?)"\s+?"(.+?)"' \
-                 r'\s+?(?P<time>.+)'
+
+    LOG_REGEXP = re.compile(r'^\S+ \S+\s+\S+ \[\S+ \S+\] "\S+ (?P<target>\S+) \S+" '
+                            r'\S+ \S+ "\S+" '
+                            r'".+?" "\S+" "\S+" "\S+" '
+                            r'(?P<time>\S+)$')
 
     def parse_log(self, log, max_errors_percent):
         """
@@ -87,8 +88,5 @@ class LogParser:
         if not match:
             logging.debug(f"Log line not match with regexp:\n{line}")
             return None
-        request = match.group('request')
-        if len(request.split()) != 3:
-            logging.debug(f"Wrong $request format in line {line}")
-            return None
-        return {'url': request.split()[1], 'time': float(match.group('time'))}
+        target = match.group('target')
+        return {'url': target, 'time': float(match.group('time'))}
