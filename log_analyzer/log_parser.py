@@ -41,12 +41,12 @@ class LogParser:
             report_stats.append({
                 'url': url,
                 'count': len(url_stat['time']),
-                'count_perc': round(times_len / total_count, 3),
+                'count_perc': round((times_len / total_count) * 100, 3),
                 'time_avg': round(times_sum / times_len, 3),
                 'time_med': round(median(url_stat['time']), 3),
                 'time_max': round(max(url_stat['time']), 3),
                 'time_sum': round(times_sum, 3),
-                'time_perc': round(times_sum / total_time, 3)
+                'time_perc': round((times_sum / total_time) * 100, 3)
 
             })
         return report_stats
