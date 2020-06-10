@@ -43,9 +43,9 @@ class LogParser:
                 'count': len(url_stat['time']),
                 'count_perc': round(times_len / total_count, 3),
                 'time_avg': round(times_sum / times_len, 3),
-                'time_med': median(url_stat['time']),
-                'time_max': max(url_stat['time']),
-                'time_sum': times_sum,
+                'time_med': round(median(url_stat['time']), 3),
+                'time_max': round(max(url_stat['time']), 3),
+                'time_sum': round(times_sum, 3),
                 'time_perc': round(times_sum / total_time, 3)
 
             })
