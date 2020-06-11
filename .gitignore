@@ -1,1 +1,10 @@
 .idea
+reports
+!reports/.keep
+logs
+!logs/.keep
+tests/fixtures/tmp
+!tests/fixtures/tmp/.keep
+log_analyzer/__pycache__
+tests/__pycache__
+log_analyzer.out
